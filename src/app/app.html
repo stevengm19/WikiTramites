@@ -1,1 +1,32 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu [content]="content">
+    <ion-content>
+        <ion-item-group *ngFor="let Menu of listaMenu">
+            <button *ngIf="Menu.Componente" ion-item no-line detail-none (click)="openPage(Menu.Opciones[0])">
+                {{Menu.Nombre}}
+            </button>
+            <button *ngIf="!Menu.Componente" ion-item no-lines detail-none (click)="mostrarOpciones(Menu)">
+                {{Menu.Nombre}}
+            </button>
+            <button *ngIf="!Menu.Componente" ion-item no-lines detail-none (click)="mostrarOpciones(Menu)">
+                {{Menu.Categoria}}
+                <ion-icon *ngIf="!Menu.Colapsa" color="primary" ios="ios-arrow-dropdown" md="md-arrow-dropdown" item-end></ion-icon>
+                <ion-icon *ngIf="Menu.Colapsa" color="primary" ios="ios-arrow-dropup" md="md-arrow-dropup" item-end></ion-icon>
+            </button>
+            <ion-item-group noline *ngIf="!Menu.Componente && Menu.Colapsa">
+                <button ion-item no-lines detail-none *ngFor="let Opcion of Menu.Opciones" (click)="openPage(Opcion)">
+                    {{Opcion.Titulo}}
+                </button>
+            </ion-item-group>
+        </ion-item-group>
+    </ion-content>
+</ion-menu>
+<ion-header>
+    <ion-navbar hideBackButton="true" color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>{{tituloPagina}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false" overflow-scroll="false" color="light"></ion-nav>
